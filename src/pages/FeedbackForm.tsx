@@ -13,6 +13,7 @@ interface FeedbackFormProps {
 }
 
 interface FieldErrors {
+  location?: string;
   category?: string;
   businessType?: string;
   why?: string;
@@ -29,6 +30,12 @@ const FIELD_MAP: Record<string, keyof FieldErrors> = {
 };
 
 export function FeedbackForm({ t, lang, onLangToggle, onNavigate, onSubmit }: FeedbackFormProps) {
+  // Populated when user arrives via QR code (?s=<id>); empty means manual entry needed
+  const qrStorefrontId =
+    new URLSearchParams(window.location.search).get('s') ??
+    import.meta.env['VITE_DEV_STOREFRONT_ID'] ??
+    '';
+
   const [form, setForm] = useState<FeedbackFormData>({
     category: '',
     businessType: '',
@@ -36,11 +43,13 @@ export function FeedbackForm({ t, lang, onLangToggle, onNavigate, onSubmit }: Fe
     contact: '',
     lang,
   });
+  const [manualLocation, setManualLocation] = useState('');
   const [errors, setErrors] = useState<FieldErrors>({});
   const [loading, setLoading] = useState(false);
 
   function validate(): boolean {
     const e: FieldErrors = {};
+    if (!qrStorefrontId && !manualLocation.trim()) e.location = t.form.required;
     if (!form.category) e.category = t.form.required;
     if (!form.businessType.trim()) e.businessType = t.form.required;
     if (!form.why.trim()) e.why = t.form.required;
@@ -59,12 +68,7 @@ export function FeedbackForm({ t, lang, onLangToggle, onNavigate, onSubmit }: Fe
     setErrors({});
 
     try {
-      // STOREFRONT_ID: in production this comes from the QR code URL param.
-      // For MVP we use a fixed dev storefront. Wire to URL param when QR is live.
-      const storefrontId =
-        new URLSearchParams(window.location.search).get('s') ??
-        import.meta.env['VITE_DEV_STOREFRONT_ID'] ??
-        '';
+      const storefrontId = qrStorefrontId || manualLocation.trim();
 
       const result = await submitFeedback({
         storefront_id: storefrontId,
@@ -93,8 +97,7 @@ export function FeedbackForm({ t, lang, onLangToggle, onNavigate, onSubmit }: Fe
         } else if (err.status === 429) {
           setErrors({ _server: 'Too many submissions. Please try again later.' });
         } else if (err.status === 404) {
-          // Storefront not found — dev-only message; in prod QR links are always valid
-          setErrors({ _server: 'Storefront not found. Make sure you scanned a valid QR code.' });
+          setErrors({ _server: 'Location not found. Please check the number on the sign and try again.' });
         } else {
           setErrors({ _server: err.message });
         }
@@ -115,6 +118,11 @@ export function FeedbackForm({ t, lang, onLangToggle, onNavigate, onSubmit }: Fe
     }
   }
 
+  function setLocation(value: string) {
+    setManualLocation(value);
+    if (errors.location) setErrors(prev => ({ ...prev, location: undefined, _server: undefined }));
+  }
+
   return (
     <div className="form-page">
       <Navbar t={t} lang={lang} onLangToggle={onLangToggle} onNavigate={onNavigate} />
@@ -131,6 +139,25 @@ export function FeedbackForm({ t, lang, onLangToggle, onNavigate, onSubmit }: Fe
             {errors._server && (
               <div className="form-server-error" role="alert">
                 {errors._server}
+              </div>
+            )}
+
+            {!qrStorefrontId && (
+              <div className={`field ${errors.location ? 'field--error' : ''}`}>
+                <label htmlFor="location" className="field__label">{t.form.location} *</label>
+                <input
+                  id="location"
+                  type="text"
+                  inputMode="numeric"
+                  pattern="[0-9]*"
+                  value={manualLocation}
+                  onChange={e => setLocation(e.target.value)}
+                  placeholder={t.form.locationPlaceholder}
+                  className="field__input"
+                  autoComplete="off"
+                />
+                <span className="field__hint">{t.form.locationHint}</span>
+                {errors.location && <span className="field__error">{errors.location}</span>}
               </div>
             )}
 

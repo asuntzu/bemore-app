@@ -104,6 +104,11 @@
   border-color: #DC3627;
 }
 
+.field__hint {
+  font-size: 12px;
+  color: #888;
+}
+
 .field__error {
   font-size: 12px;
   color: #DC3627;

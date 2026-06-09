@@ -20,6 +20,9 @@ export const translations: Record<'en' | 'es', Translations> = {
     form: {
       title: 'Share Your Vision',
       subtitle: 'Tell us what this space should become.',
+      location: 'Location #',
+      locationPlaceholder: 'e.g. 1042',
+      locationHint: 'Find this number on the sign posted at the storefront.',
       category: 'Category',
       categoryPlaceholder: 'Select a category…',
       businessType: 'Business Type',
@@ -73,6 +76,9 @@ export const translations: Record<'en' | 'es', Translations> = {
     form: {
       title: 'Comparte Tu Visión',
       subtitle: 'Dinos en qué debería convertirse este espacio.',
+      location: 'Número de ubicación',
+      locationPlaceholder: 'ej. 1042',
+      locationHint: 'Encuentra este número en el letrero del local.',
       category: 'Categoría',
       categoryPlaceholder: 'Selecciona una categoría…',
       businessType: 'Tipo de Negocio',

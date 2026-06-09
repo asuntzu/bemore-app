@@ -27,6 +27,9 @@ export interface Translations {
   form: {
     title: string;
     subtitle: string;
+    location: string;
+    locationPlaceholder: string;
+    locationHint: string;
     category: string;
     categoryPlaceholder: string;
     businessType: string;
