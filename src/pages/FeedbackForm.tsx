@@ -144,9 +144,14 @@ export function FeedbackForm({ t, lang, onLangToggle, onNavigate, onSubmit }: Fe
               </div>
             )}
 
-            {!qrStorefrontId && (
-              <div className={`field ${errors.location ? 'field--error' : ''}`}>
-                <label htmlFor="location" className="field__label">{t.form.location} *</label>
+            <div className={`field ${errors.location ? 'field--error' : ''}`}>
+              <label htmlFor="location" className="field__label">{t.form.location} *</label>
+              {qrStorefrontId ? (
+                <div className="field__confirmed">
+                  <span className="field__confirmed-icon">✓</span>
+                  {t.form.locationConfirmed} {qrStorefrontId}
+                </div>
+              ) : (
                 <input
                   id="location"
                   type="text"
@@ -158,10 +163,10 @@ export function FeedbackForm({ t, lang, onLangToggle, onNavigate, onSubmit }: Fe
                   className="field__input"
                   autoComplete="off"
                 />
-                <span className="field__hint">{t.form.locationHint}</span>
-                {errors.location && <span className="field__error">{errors.location}</span>}
-              </div>
-            )}
+              )}
+              {!qrStorefrontId && <span className="field__hint">{t.form.locationHint}</span>}
+              {errors.location && <span className="field__error">{errors.location}</span>}
+            </div>
 
             <div className={`field ${errors.category ? 'field--error' : ''}`}>
               <label htmlFor="category" className="field__label">{t.form.category} *</label>

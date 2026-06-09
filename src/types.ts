@@ -30,6 +30,7 @@ export interface Translations {
     location: string;
     locationPlaceholder: string;
     locationHint: string;
+    locationConfirmed: string;
     category: string;
     categoryPlaceholder: string;
     businessType: string;
