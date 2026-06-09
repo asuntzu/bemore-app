@@ -1,7 +1,7 @@
 /* ─── Container ──────────────────────────────────────────── */
 .cna-wrap {
-  width: 400px;
-  height: 400px;
+  width: min(100%, 560px);
+  aspect-ratio: 1 / 1;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -86,8 +86,8 @@
 
 @keyframes cna-glow-pulse {
   0%,  70% { opacity: 0;    transform: scale(1);   }
-  77%      { opacity: 0.22; transform: scale(1.55); }
-  85%      { opacity: 0;    transform: scale(1.2);  }
+  77%      { opacity: 0.18; transform: scale(1.45); }
+  85%      { opacity: 0;    transform: scale(1.15); }
   100%     { opacity: 0;    transform: scale(1);    }
 }
 
@@ -146,8 +146,7 @@
 /* ─── Mobile sizing ──────────────────────────────────────── */
 @media (max-width: 768px) {
   .cna-wrap {
-    width: 300px;
-    height: 300px;
+    width: min(100%, 340px);
   }
 }
 

@@ -3,21 +3,22 @@ import './CommunityNodesAnimation.css';
 
 const TO_RAD = Math.PI / 180;
 
+// Nodes now fill the canvas — clustered at 95-145 units, scattered at 160-190
 const RAW_NODES = [
-  { angle: 15,  clusterR: 62,  scatterR: 130, offsetAngle: -5,  size: 5,   delay: 0.0,  desktopOnly: false },
-  { angle: 45,  clusterR: 55,  scatterR: 125, offsetAngle:  8,  size: 4,   delay: 0.3,  desktopOnly: false },
-  { angle: 80,  clusterR: 70,  scatterR: 140, offsetAngle:  3,  size: 5.5, delay: 0.6,  desktopOnly: false },
-  { angle: 115, clusterR: 58,  scatterR: 130, offsetAngle: -7,  size: 4.5, delay: 0.9,  desktopOnly: false },
-  { angle: 150, clusterR: 65,  scatterR: 145, offsetAngle:  5,  size: 5,   delay: 0.2,  desktopOnly: false },
-  { angle: 185, clusterR: 52,  scatterR: 120, offsetAngle:  2,  size: 4,   delay: 0.5,  desktopOnly: false },
-  { angle: 220, clusterR: 68,  scatterR: 138, offsetAngle: -4,  size: 5.5, delay: 0.8,  desktopOnly: false },
-  { angle: 255, clusterR: 60,  scatterR: 128, offsetAngle:  6,  size: 4.5, delay: 0.1,  desktopOnly: false },
-  { angle: 290, clusterR: 55,  scatterR: 122, offsetAngle: -3,  size: 4,   delay: 0.4,  desktopOnly: false },
-  { angle: 320, clusterR: 72,  scatterR: 142, offsetAngle:  7,  size: 5,   delay: 0.7,  desktopOnly: false },
-  { angle: 30,  clusterR: 80,  scatterR: 148, offsetAngle: -6,  size: 4.5, delay: 1.1,  desktopOnly: true  },
-  { angle: 165, clusterR: 75,  scatterR: 145, offsetAngle:  4,  size: 4,   delay: 1.3,  desktopOnly: true  },
-  { angle: 240, clusterR: 78,  scatterR: 150, offsetAngle: -2,  size: 5,   delay: 1.0,  desktopOnly: true  },
-  { angle: 340, clusterR: 73,  scatterR: 143, offsetAngle:  5,  size: 4.5, delay: 1.2,  desktopOnly: true  },
+  { angle: 15,  clusterR: 115, scatterR: 172, offsetAngle: -5,  size: 8,   delay: 0.0,  desktopOnly: false },
+  { angle: 45,  clusterR: 100, scatterR: 166, offsetAngle:  8,  size: 6.5, delay: 0.3,  desktopOnly: false },
+  { angle: 80,  clusterR: 128, scatterR: 182, offsetAngle:  3,  size: 9,   delay: 0.6,  desktopOnly: false },
+  { angle: 115, clusterR: 108, scatterR: 172, offsetAngle: -7,  size: 7,   delay: 0.9,  desktopOnly: false },
+  { angle: 150, clusterR: 120, scatterR: 184, offsetAngle:  5,  size: 8,   delay: 0.2,  desktopOnly: false },
+  { angle: 185, clusterR:  95, scatterR: 161, offsetAngle:  2,  size: 6.5, delay: 0.5,  desktopOnly: false },
+  { angle: 220, clusterR: 124, scatterR: 178, offsetAngle: -4,  size: 9,   delay: 0.8,  desktopOnly: false },
+  { angle: 255, clusterR: 110, scatterR: 169, offsetAngle:  6,  size: 7,   delay: 0.1,  desktopOnly: false },
+  { angle: 290, clusterR: 100, scatterR: 163, offsetAngle: -3,  size: 6.5, delay: 0.4,  desktopOnly: false },
+  { angle: 320, clusterR: 132, scatterR: 183, offsetAngle:  7,  size: 8,   delay: 0.7,  desktopOnly: false },
+  { angle: 30,  clusterR: 145, scatterR: 188, offsetAngle: -6,  size: 7,   delay: 1.1,  desktopOnly: true  },
+  { angle: 165, clusterR: 137, scatterR: 186, offsetAngle:  4,  size: 6.5, delay: 1.3,  desktopOnly: true  },
+  { angle: 240, clusterR: 142, scatterR: 189, offsetAngle: -2,  size: 8,   delay: 1.0,  desktopOnly: true  },
+  { angle: 340, clusterR: 134, scatterR: 184, offsetAngle:  5,  size: 7,   delay: 1.2,  desktopOnly: true  },
 ];
 
 interface NodeDatum {
@@ -92,24 +93,24 @@ export function CommunityNodesAnimation() {
         ))}
 
         {/* Glow pulse ring behind storefront */}
-        <circle className="cna-glow" cx="0" cy="0" r="30" />
+        <circle className="cna-glow" cx="0" cy="0" r="60" />
 
-        {/* Storefront icon — line-art, 40px approx */}
+        {/* Storefront icon — scaled 2× from original (~80px at 400px canvas) */}
         <g className="cna-storefront">
           {/* Building outline */}
-          <rect x="-18" y="-20" width="36" height="40" rx="1" />
+          <rect x="-40" y="-44" width="80" height="88" rx="2" />
           {/* Awning */}
-          <path d="M -20,-20 L 0,-29 L 20,-20" strokeLinejoin="round" />
+          <path d="M -44,-44 L 0,-64 L 44,-44" strokeLinejoin="round" />
           {/* Sign bar */}
-          <rect className="cna-storefront__sign" x="-13" y="-20" width="26" height="7" rx="1" />
+          <rect className="cna-storefront__sign" x="-29" y="-44" width="58" height="16" rx="2" />
           {/* Left window */}
-          <rect className="cna-storefront__window" x="-15" y="-12" width="10" height="9" rx="1" />
+          <rect className="cna-storefront__window" x="-33" y="-26" width="22" height="20" rx="2" />
           {/* Right window */}
-          <rect className="cna-storefront__window" x="5" y="-12" width="10" height="9" rx="1" />
+          <rect className="cna-storefront__window" x="11" y="-26" width="22" height="20" rx="2" />
           {/* Door */}
-          <rect x="-7" y="4" width="14" height="16" rx="1.5" />
+          <rect x="-15" y="9" width="30" height="35" rx="3" />
           {/* Door knob */}
-          <circle className="cna-storefront__knob" cx="4.5" cy="12.5" r="1.2" />
+          <circle className="cna-storefront__knob" cx="10" cy="27" r="2.7" />
         </g>
       </svg>
     </div>
