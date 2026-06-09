@@ -1,5 +1,5 @@
 import { Navbar } from '../components/Navbar';
-import { OrbitNetwork } from '../components/OrbitNetwork';
+import { CommunityNodesAnimation } from '../components/CommunityNodesAnimation';
 import { ProblemSection } from '../components/ProblemSection';
 import { SolutionSection } from '../components/SolutionSection';
 import { WhySection } from '../components/WhySection';
@@ -55,10 +55,7 @@ export function Landing({ t, lang, onLangToggle, onNavigate }: LandingProps) {
         </div>
 
         <div className="landing__right" id="operators">
-          <OrbitNetwork
-            centerLabel={t.hero.networkCenter}
-            networkLabel={t.hero.networkLabel}
-          />
+          <CommunityNodesAnimation />
         </div>
       </main>
 
