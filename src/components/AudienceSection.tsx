@@ -16,22 +16,22 @@ const PATHWAYS: Pathway[] = [
     id: 'resident',
     label: 'Resident',
     title: 'Resident',
-    copy: 'Your neighborhood has untapped power. Tell us what you want. Watch operators listen. See empty spaces transform into something real.',
-    cta: 'Share What You Want',
+    copy: "Your block. Your call. Tell us what you want to see. We'll make sure operators hear you.",
+    cta: 'Have Your Say',
   },
   {
     id: 'operator',
     label: 'Operator',
     title: 'Operator',
-    copy: 'Stop guessing about location viability. Access pre-validated demand data. Connect with suppliers who want to reach your market. Open with confidence.',
-    cta: 'Find Validated Demand',
+    copy: 'Know before you open. Enter a market that is already waiting for you. Zero guesswork.',
+    cta: 'Find Your Market',
   },
   {
     id: 'partner',
     label: 'Partner',
     title: 'Partner',
-    copy: "Help neighborhoods drive their own economic growth. Support real entrepreneurship. Transform vacant storefronts into thriving local businesses. That's economic development that sticks.",
-    cta: 'Support Entrepreneurship',
+    copy: 'Help Baltimore grow from within. Real data. Real entrepreneurs. Real results.',
+    cta: 'Become a Partner',
   },
 ];
 
@@ -42,7 +42,7 @@ export function AudienceSection({ onNavigate }: { onNavigate: (page: 'form') => 
   return (
     <section className="audience">
       <div className="section-inner">
-        <h2 className="section-headline">Are You a...</h2>
+        <h2 className="section-headline">Who Are You?</h2>
 
         <div className="audience__tabs">
           {PATHWAYS.map(p => (

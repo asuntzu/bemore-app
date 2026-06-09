@@ -1,10 +1,9 @@
 import './ImpactSection.css';
 
-// Placeholder data — replace with real API data as Be More scales
 const STATS = [
-  { value: 'XXX', label: 'Community Voices Heard' },
+  { value: 'XXX', label: 'Voices Heard' },
   { value: 'XXX', label: 'Storefronts Activated' },
-  { value: '50%', label: 'Retail failure rate Be More aims to cut' },
+  { value: '50%', label: 'Of retail fails. We\'re changing that.' },
 ];
 
 const TESTIMONIAL = {
@@ -18,7 +17,7 @@ export function ImpactSection() {
   return (
     <section className="impact">
       <div className="section-inner">
-        <h2 className="section-headline">Be More in Action</h2>
+        <h2 className="section-headline">This Is Working.</h2>
 
         <div className="impact__stats">
           {STATS.map(s => (

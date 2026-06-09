@@ -6,25 +6,21 @@ export function WhySection() {
       <div className="section-inner">
         <div className="why__inner">
           <h2 className="section-headline why__headline">
-            Baltimore Neighborhoods Thrive When Given a Voice
+            Baltimore Has Everything It Needs.
           </h2>
           <div className="why__body">
             <p>
-              This isn't about filling storefronts. It's about proving that community input
-              transforms neighborhoods. When residents feel heard, when operators feel confident,
-              when leaders see clear data—real growth happens. Baltimore has everything needed
-              for thriving retail: dense neighborhoods, diverse communities, hungry
-              entrepreneurs. What's been missing is a system that connects them.
+              Dense neighborhoods. Hungry entrepreneurs. A city ready to grow.
+              What's been missing is the connection—between what residents want
+              and where operators open.
             </p>
             <p>
-              Here's what we know: <strong>50% of retail businesses fail in their first five
-              years.</strong> Most don't fail because they're badly run. They fail because
-              location mismatch kills them before they start. Be More eliminates that failure
-              mode. You don't guess. You validate. You commit with confidence.
+              <strong>Half of retail fails in five years.</strong> Not from bad operators.
+              From wrong locations. Be More removes that failure mode.
+              You validate before you commit.
             </p>
             <p className="why__tagline">
-              This is economic development that actually works: community-driven, data-backed,
-              operator-friendly, neighborhood-first.
+              Community voice. Validated demand. Businesses that belong.
             </p>
           </div>
         </div>

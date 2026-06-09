@@ -9,7 +9,7 @@ export function SiteFooter() {
           <div className="site-footer__brand">
             <img src={logoSrc} alt="Be More Inc." className="site-footer__logo" />
             <p className="site-footer__mission">
-              Community-driven retail. Real neighborhoods. Real opportunities.
+              Retail that belongs here. Built by the people who live here.
             </p>
           </div>
 
