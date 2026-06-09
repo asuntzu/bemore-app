@@ -23,18 +23,18 @@
 }
 
 .orbit-ring--inner {
-  width: 180px;
-  height: 180px;
+  width: 148px;
+  height: 148px;
 }
 
 .orbit-ring--mid {
-  width: 280px;
-  height: 280px;
+  width: 232px;
+  height: 232px;
 }
 
 .orbit-ring--outer {
-  width: 380px;
-  height: 380px;
+  width: 316px;
+  height: 316px;
 }
 
 /* Center node */
@@ -87,21 +87,21 @@
 }
 
 .orbit--inner {
-  width: 180px;
-  height: 180px;
+  width: 148px;
+  height: 148px;
   animation-duration: 30s;
 }
 
 .orbit--mid {
-  width: 280px;
-  height: 280px;
+  width: 232px;
+  height: 232px;
   animation-duration: 40s;
   animation-direction: reverse;
 }
 
 .orbit--outer {
-  width: 380px;
-  height: 380px;
+  width: 316px;
+  height: 316px;
   animation-duration: 50s;
 }
 
@@ -111,12 +111,12 @@
   top: 0;
   left: 50%;
   transform: translateX(-50%) translateY(-50%);
-  width: 46px;
-  height: 46px;
-  border-radius: 14px;
-  background: rgba(255,255,255,0.08);
+  width: 62px;
+  height: 62px;
+  border-radius: 18px;
+  background: rgba(255,255,255,0.10);
   backdrop-filter: blur(8px);
-  border: 1px solid rgba(255,255,255,0.18);
+  border: 1px solid rgba(255,255,255,0.22);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -125,7 +125,7 @@
 }
 
 .orbit-icon span {
-  font-size: 20px;
+  font-size: 28px;
   /* Counter-rotate the emoji so it stays upright */
   display: block;
   animation: counter-rotate linear infinite;
@@ -145,17 +145,17 @@
 }
 
 /* Stagger each icon around its orbit ring */
-.orbit--inner .orbit-icon:nth-child(1) { transform: translateX(-50%) translateY(-50%) rotate(0deg) translateY(-90px) rotate(0deg); }
-.orbit--inner .orbit-icon:nth-child(2) { transform: translateX(-50%) translateY(-50%) rotate(120deg) translateY(-90px) rotate(-120deg); }
-.orbit--inner .orbit-icon:nth-child(3) { transform: translateX(-50%) translateY(-50%) rotate(240deg) translateY(-90px) rotate(-240deg); }
+.orbit--inner .orbit-icon:nth-child(1) { transform: translateX(-50%) translateY(-50%) rotate(0deg) translateY(-74px) rotate(0deg); }
+.orbit--inner .orbit-icon:nth-child(2) { transform: translateX(-50%) translateY(-50%) rotate(120deg) translateY(-74px) rotate(-120deg); }
+.orbit--inner .orbit-icon:nth-child(3) { transform: translateX(-50%) translateY(-50%) rotate(240deg) translateY(-74px) rotate(-240deg); }
 
-.orbit--mid .orbit-icon:nth-child(1) { transform: translateX(-50%) translateY(-50%) rotate(0deg) translateY(-140px) rotate(0deg); }
-.orbit--mid .orbit-icon:nth-child(2) { transform: translateX(-50%) translateY(-50%) rotate(120deg) translateY(-140px) rotate(-120deg); }
-.orbit--mid .orbit-icon:nth-child(3) { transform: translateX(-50%) translateY(-50%) rotate(240deg) translateY(-140px) rotate(-240deg); }
+.orbit--mid .orbit-icon:nth-child(1) { transform: translateX(-50%) translateY(-50%) rotate(0deg) translateY(-116px) rotate(0deg); }
+.orbit--mid .orbit-icon:nth-child(2) { transform: translateX(-50%) translateY(-50%) rotate(120deg) translateY(-116px) rotate(-120deg); }
+.orbit--mid .orbit-icon:nth-child(3) { transform: translateX(-50%) translateY(-50%) rotate(240deg) translateY(-116px) rotate(-240deg); }
 
-.orbit--outer .orbit-icon:nth-child(1) { transform: translateX(-50%) translateY(-50%) rotate(0deg) translateY(-190px) rotate(0deg); }
-.orbit--outer .orbit-icon:nth-child(2) { transform: translateX(-50%) translateY(-50%) rotate(120deg) translateY(-190px) rotate(-120deg); }
-.orbit--outer .orbit-icon:nth-child(3) { transform: translateX(-50%) translateY(-50%) rotate(240deg) translateY(-190px) rotate(-240deg); }
+.orbit--outer .orbit-icon:nth-child(1) { transform: translateX(-50%) translateY(-50%) rotate(0deg) translateY(-158px) rotate(0deg); }
+.orbit--outer .orbit-icon:nth-child(2) { transform: translateX(-50%) translateY(-50%) rotate(120deg) translateY(-158px) rotate(-120deg); }
+.orbit--outer .orbit-icon:nth-child(3) { transform: translateX(-50%) translateY(-50%) rotate(240deg) translateY(-158px) rotate(-240deg); }
 
 .orbit-icon:hover {
   box-shadow: 0 0 20px rgba(220, 54, 39, 0.5);
@@ -176,34 +176,35 @@
     height: 300px;
   }
 
-  .orbit-ring--inner { width: 130px; height: 130px; }
-  .orbit-ring--mid   { width: 200px; height: 200px; }
-  .orbit-ring--outer { width: 270px; height: 270px; }
+  .orbit-ring--inner { width: 110px; height: 110px; }
+  .orbit-ring--mid   { width: 172px; height: 172px; }
+  .orbit-ring--outer { width: 234px; height: 234px; }
   .orbit-center      { width: 80px; height: 80px; }
   .orbit-center__text { font-size: 10px; }
 
-  .orbit--inner { width: 130px; height: 130px; }
-  .orbit--mid   { width: 200px; height: 200px; }
-  .orbit--outer { width: 270px; height: 270px; }
+  .orbit--inner { width: 110px; height: 110px; }
+  .orbit--mid   { width: 172px; height: 172px; }
+  .orbit--outer { width: 234px; height: 234px; }
 
-  .orbit--inner .orbit-icon:nth-child(1) { transform: translateX(-50%) translateY(-50%) rotate(0deg) translateY(-65px) rotate(0deg); }
-  .orbit--inner .orbit-icon:nth-child(2) { transform: translateX(-50%) translateY(-50%) rotate(120deg) translateY(-65px) rotate(-120deg); }
-  .orbit--inner .orbit-icon:nth-child(3) { transform: translateX(-50%) translateY(-50%) rotate(240deg) translateY(-65px) rotate(-240deg); }
+  .orbit--inner .orbit-icon:nth-child(1) { transform: translateX(-50%) translateY(-50%) rotate(0deg) translateY(-55px) rotate(0deg); }
+  .orbit--inner .orbit-icon:nth-child(2) { transform: translateX(-50%) translateY(-50%) rotate(120deg) translateY(-55px) rotate(-120deg); }
+  .orbit--inner .orbit-icon:nth-child(3) { transform: translateX(-50%) translateY(-50%) rotate(240deg) translateY(-55px) rotate(-240deg); }
 
-  .orbit--mid .orbit-icon:nth-child(1) { transform: translateX(-50%) translateY(-50%) rotate(0deg) translateY(-100px) rotate(0deg); }
-  .orbit--mid .orbit-icon:nth-child(2) { transform: translateX(-50%) translateY(-50%) rotate(120deg) translateY(-100px) rotate(-120deg); }
-  .orbit--mid .orbit-icon:nth-child(3) { transform: translateX(-50%) translateY(-50%) rotate(240deg) translateY(-100px) rotate(-240deg); }
+  .orbit--mid .orbit-icon:nth-child(1) { transform: translateX(-50%) translateY(-50%) rotate(0deg) translateY(-86px) rotate(0deg); }
+  .orbit--mid .orbit-icon:nth-child(2) { transform: translateX(-50%) translateY(-50%) rotate(120deg) translateY(-86px) rotate(-120deg); }
+  .orbit--mid .orbit-icon:nth-child(3) { transform: translateX(-50%) translateY(-50%) rotate(240deg) translateY(-86px) rotate(-240deg); }
 
-  .orbit--outer .orbit-icon:nth-child(1) { transform: translateX(-50%) translateY(-50%) rotate(0deg) translateY(-135px) rotate(0deg); }
-  .orbit--outer .orbit-icon:nth-child(2) { transform: translateX(-50%) translateY(-50%) rotate(120deg) translateY(-135px) rotate(-120deg); }
-  .orbit--outer .orbit-icon:nth-child(3) { transform: translateX(-50%) translateY(-50%) rotate(240deg) translateY(-135px) rotate(-240deg); }
+  .orbit--outer .orbit-icon:nth-child(1) { transform: translateX(-50%) translateY(-50%) rotate(0deg) translateY(-117px) rotate(0deg); }
+  .orbit--outer .orbit-icon:nth-child(2) { transform: translateX(-50%) translateY(-50%) rotate(120deg) translateY(-117px) rotate(-120deg); }
+  .orbit--outer .orbit-icon:nth-child(3) { transform: translateX(-50%) translateY(-50%) rotate(240deg) translateY(-117px) rotate(-240deg); }
 
   .orbit-icon {
-    width: 38px;
-    height: 38px;
+    width: 50px;
+    height: 50px;
+    border-radius: 14px;
   }
 
   .orbit-icon span {
-    font-size: 16px;
+    font-size: 22px;
   }
 }
