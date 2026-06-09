@@ -5,35 +5,25 @@
 .solution__steps {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 0;
+  gap: 32px;
   margin-top: 48px;
-  position: relative;
 }
 
 .solution__step {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 20px;
+  padding: 36px 32px;
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  padding: 0 32px;
-  position: relative;
+  gap: 14px;
 }
 
-.solution__step:first-child {
-  padding-left: 0;
-}
-
-.solution__step:last-child {
-  padding-right: 0;
-}
-
-/* Horizontal connector line between steps */
-.solution__connector {
-  position: absolute;
-  top: 28px;
-  right: -1px;
-  width: 2px;
-  height: 56px;
-  background: rgba(220,54,39,0.35);
+.solution__step-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 6px;
 }
 
 .solution__step-num {
@@ -44,17 +34,17 @@
   color: #fff;
   font-size: 18px;
   font-weight: 900;
+  letter-spacing: 0.5px;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 20px;
   flex-shrink: 0;
 }
 
-.solution__step-body {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
+.solution__step-icon {
+  color: #DC3627;
+  opacity: 0.85;
+  flex-shrink: 0;
 }
 
 .solution__step-label {
@@ -66,17 +56,46 @@
 }
 
 .solution__step-title {
-  font-size: 28px;
+  font-size: 24px;
   font-weight: 900;
   color: #ffffff;
   letter-spacing: -0.5px;
-  text-shadow: 0 2px 12px rgba(0,0,0,0.3);
+  line-height: 1.25;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.3);
 }
 
 .solution__step-copy {
   font-size: 15px;
-  color: rgba(255,255,255,0.88);
+  color: rgba(255, 255, 255, 0.88);
   line-height: 1.7;
+  flex: 1;
+}
+
+.solution__cta {
+  margin-top: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.solution__cta-prompt {
+  font-size: 17px;
+  color: rgba(255, 255, 255, 0.65);
+}
+
+.solution__cta-link {
+  font-size: 17px;
+  font-weight: 700;
+  color: #DC3627;
+  text-decoration: none;
+  transition: opacity 0.2s;
+}
+
+.solution__cta-link:hover {
+  opacity: 0.75;
+  text-decoration: underline;
 }
 
 @media (max-width: 900px) {
@@ -86,18 +105,17 @@
 
   .solution__steps {
     grid-template-columns: 1fr;
-    gap: 40px;
-  }
-
-  .solution__step {
-    padding: 0;
-  }
-
-  .solution__connector {
-    display: none;
+    gap: 24px;
+    margin-top: 36px;
   }
 
   .solution__step-title {
-    font-size: 22px;
+    font-size: 20px;
+  }
+
+  .solution__cta {
+    flex-direction: column;
+    gap: 8px;
+    text-align: center;
   }
 }
