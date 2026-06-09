@@ -1,0 +1,180 @@
+/* ─── Container ──────────────────────────────────────────── */
+.cna-wrap {
+  width: min(100%, 560px);
+  aspect-ratio: 1 / 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cna-svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+/* ─── Community nodes ────────────────────────────────────── */
+.cna-node {
+  fill: #DC3627;
+  transform-box: fill-box;
+  transform-origin: center;
+  will-change: transform, opacity;
+  animation: cna-node-cycle 10s cubic-bezier(0.42, 0, 0.58, 1) infinite;
+}
+
+@keyframes cna-node-cycle {
+  0% {
+    opacity: 0;
+    transform: translate(var(--dx), var(--dy)) scale(0.55);
+  }
+  15% {
+    opacity: 0.25;
+    transform: translate(var(--dx), var(--dy)) scale(1);
+  }
+  48% {
+    opacity: 0.4;
+    transform: translate(0px, 0px) scale(1);
+  }
+  72% {
+    opacity: 0.4;
+    transform: translate(0px, 0px) scale(1);
+  }
+  79% {
+    opacity: 0.55;
+    transform: translate(0px, 0px) scale(1.4);
+  }
+  85% {
+    opacity: 0.4;
+    transform: translate(0px, 0px) scale(1);
+  }
+  93% {
+    opacity: 0.1;
+    transform: translate(calc(var(--dx) * 0.55), calc(var(--dy) * 0.55)) scale(0.75);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(var(--dx), var(--dy)) scale(0.55);
+  }
+}
+
+/* ─── Connection lines ───────────────────────────────────── */
+.cna-line {
+  stroke: #DC3627;
+  stroke-width: 1.2;
+  will-change: opacity;
+  animation: cna-line-cycle 10s cubic-bezier(0.42, 0, 0.58, 1) infinite;
+}
+
+@keyframes cna-line-cycle {
+  0%,  14% { opacity: 0;    }
+  35%      { opacity: 0;    }
+  48%      { opacity: 0.18; }
+  75%      { opacity: 0.18; }
+  87%      { opacity: 0;    }
+  100%     { opacity: 0;    }
+}
+
+/* ─── Glow ring ──────────────────────────────────────────── */
+.cna-glow {
+  fill: #DC3627;
+  opacity: 0;
+  transform-box: fill-box;
+  transform-origin: center;
+  will-change: transform, opacity;
+  animation: cna-glow-pulse 10s cubic-bezier(0.42, 0, 0.58, 1) infinite;
+}
+
+@keyframes cna-glow-pulse {
+  0%,  70% { opacity: 0;    transform: scale(1);   }
+  77%      { opacity: 0.18; transform: scale(1.45); }
+  85%      { opacity: 0;    transform: scale(1.15); }
+  100%     { opacity: 0;    transform: scale(1);    }
+}
+
+/* ─── Storefront icon ────────────────────────────────────── */
+.cna-storefront {
+  transform-box: fill-box;
+  transform-origin: center;
+  will-change: transform;
+  animation: cna-storefront-pulse 10s cubic-bezier(0.42, 0, 0.58, 1) infinite;
+}
+
+/* Default: all storefront sub-elements are line-art strokes */
+.cna-storefront rect,
+.cna-storefront path {
+  fill: none;
+  stroke: #DC3627;
+  stroke-width: 1.5;
+  stroke-linecap: round;
+}
+
+.cna-storefront__sign {
+  fill: rgba(220, 54, 39, 0.15) !important;
+  stroke: #DC3627;
+  stroke-width: 1 !important;
+}
+
+.cna-storefront__window {
+  fill: rgba(220, 54, 39, 0.08) !important;
+  stroke: #DC3627;
+  stroke-width: 1 !important;
+}
+
+.cna-storefront__knob {
+  fill: #DC3627 !important;
+  stroke: none !important;
+}
+
+@keyframes cna-storefront-pulse {
+  0%,  70% { transform: scale(1);    filter: none;                                  }
+  77%      { transform: scale(1.08); filter: drop-shadow(0 0 8px rgba(220,54,39,.6)); }
+  84%      { transform: scale(1);    filter: none;                                  }
+  100%     { transform: scale(1);    filter: none;                                  }
+}
+
+/* ─── Desktop-only nodes (hidden on mobile) ──────────────── */
+.cna-desktop-only {
+  display: none;
+}
+
+@media (min-width: 769px) {
+  .cna-desktop-only {
+    display: initial;
+  }
+}
+
+/* ─── Mobile sizing ──────────────────────────────────────── */
+@media (max-width: 768px) {
+  .cna-wrap {
+    width: min(100%, 340px);
+  }
+}
+
+/* ─── Reduced motion ─────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .cna-node,
+  .cna-line,
+  .cna-glow,
+  .cna-storefront {
+    animation: none !important;
+    will-change: auto;
+  }
+
+  .cna-node {
+    opacity: 0.4;
+    transform: none !important;
+  }
+
+  .cna-line {
+    opacity: 0.15;
+  }
+
+  .cna-glow {
+    opacity: 0;
+  }
+
+  .cna-storefront {
+    transform: none !important;
+    filter: none !important;
+  }
+}
