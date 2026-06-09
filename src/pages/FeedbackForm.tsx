@@ -30,11 +30,9 @@ const FIELD_MAP: Record<string, keyof FieldErrors> = {
 };
 
 export function FeedbackForm({ t, lang, onLangToggle, onNavigate, onSubmit }: FeedbackFormProps) {
-  // Populated when user arrives via QR code (?s=<id>); empty means manual entry needed
-  const qrStorefrontId =
-    new URLSearchParams(window.location.search).get('s') ??
-    import.meta.env['VITE_DEV_STOREFRONT_ID'] ??
-    '';
+  // Only the ?s= URL param counts as "arrived via QR" — the dev env var
+  // must not suppress the manual entry field in production
+  const qrStorefrontId = new URLSearchParams(window.location.search).get('s') ?? '';
 
   const [form, setForm] = useState<FeedbackFormData>({
     category: '',
@@ -68,7 +66,11 @@ export function FeedbackForm({ t, lang, onLangToggle, onNavigate, onSubmit }: Fe
     setErrors({});
 
     try {
-      const storefrontId = qrStorefrontId || manualLocation.trim();
+      const storefrontId =
+        qrStorefrontId ||
+        manualLocation.trim() ||
+        import.meta.env['VITE_DEV_STOREFRONT_ID'] ||
+        '';
 
       const result = await submitFeedback({
         storefront_id: storefrontId,
