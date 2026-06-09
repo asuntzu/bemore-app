@@ -1,0 +1,209 @@
+.orbit-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+}
+
+.orbit-scene {
+  position: relative;
+  width: 420px;
+  height: 420px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Static ring decorations */
+.orbit-ring {
+  position: absolute;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  pointer-events: none;
+}
+
+.orbit-ring--inner {
+  width: 180px;
+  height: 180px;
+}
+
+.orbit-ring--mid {
+  width: 280px;
+  height: 280px;
+}
+
+.orbit-ring--outer {
+  width: 380px;
+  height: 380px;
+}
+
+/* Center node */
+.orbit-center {
+  position: absolute;
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background: rgba(220, 54, 39, 0.15);
+  border: 1px solid rgba(220, 54, 39, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+}
+
+.orbit-center__text {
+  font-size: 12px;
+  font-weight: 700;
+  color: #ffffff;
+  text-align: center;
+  white-space: pre-line;
+  line-height: 1.3;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+/* Orbit tracks — rotating containers */
+@keyframes orbit-cw {
+  from { transform: translate(-50%, -50%) rotate(0deg); }
+  to   { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+@keyframes orbit-ccw {
+  from { transform: translate(-50%, -50%) rotate(0deg); }
+  to   { transform: translate(-50%, -50%) rotate(-360deg); }
+}
+
+@keyframes counter-rotate {
+  from { transform: translateX(0) rotate(0deg); }
+  to   { transform: translateX(0) rotate(-360deg); }
+}
+
+.orbit {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  border-radius: 50%;
+  animation: orbit-cw linear infinite;
+}
+
+.orbit--inner {
+  width: 180px;
+  height: 180px;
+  animation-duration: 30s;
+}
+
+.orbit--mid {
+  width: 280px;
+  height: 280px;
+  animation-duration: 40s;
+  animation-direction: reverse;
+}
+
+.orbit--outer {
+  width: 380px;
+  height: 380px;
+  animation-duration: 50s;
+}
+
+/* Individual icon placed at top of orbit circle, counter-rotated to stay upright */
+.orbit-icon {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%);
+  width: 46px;
+  height: 46px;
+  border-radius: 14px;
+  background: rgba(255,255,255,0.08);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255,255,255,0.18);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.orbit-icon span {
+  font-size: 20px;
+  /* Counter-rotate the emoji so it stays upright */
+  display: block;
+  animation: counter-rotate linear infinite;
+}
+
+.orbit--inner .orbit-icon span {
+  animation-duration: 30s;
+}
+
+.orbit--mid .orbit-icon span {
+  animation-duration: 40s;
+  animation-direction: reverse;
+}
+
+.orbit--outer .orbit-icon span {
+  animation-duration: 50s;
+}
+
+/* Stagger each icon around its orbit ring */
+.orbit--inner .orbit-icon:nth-child(1) { transform: translateX(-50%) translateY(-50%) rotate(0deg) translateY(-90px) rotate(0deg); }
+.orbit--inner .orbit-icon:nth-child(2) { transform: translateX(-50%) translateY(-50%) rotate(120deg) translateY(-90px) rotate(-120deg); }
+.orbit--inner .orbit-icon:nth-child(3) { transform: translateX(-50%) translateY(-50%) rotate(240deg) translateY(-90px) rotate(-240deg); }
+
+.orbit--mid .orbit-icon:nth-child(1) { transform: translateX(-50%) translateY(-50%) rotate(0deg) translateY(-140px) rotate(0deg); }
+.orbit--mid .orbit-icon:nth-child(2) { transform: translateX(-50%) translateY(-50%) rotate(120deg) translateY(-140px) rotate(-120deg); }
+.orbit--mid .orbit-icon:nth-child(3) { transform: translateX(-50%) translateY(-50%) rotate(240deg) translateY(-140px) rotate(-240deg); }
+
+.orbit--outer .orbit-icon:nth-child(1) { transform: translateX(-50%) translateY(-50%) rotate(0deg) translateY(-190px) rotate(0deg); }
+.orbit--outer .orbit-icon:nth-child(2) { transform: translateX(-50%) translateY(-50%) rotate(120deg) translateY(-190px) rotate(-120deg); }
+.orbit--outer .orbit-icon:nth-child(3) { transform: translateX(-50%) translateY(-50%) rotate(240deg) translateY(-190px) rotate(-240deg); }
+
+.orbit-icon:hover {
+  box-shadow: 0 0 20px rgba(220, 54, 39, 0.5);
+  background: rgba(220, 54, 39, 0.2);
+}
+
+.orbit-label {
+  font-size: 14px;
+  font-weight: 600;
+  color: rgba(255,255,255,0.7);
+  letter-spacing: 0.5px;
+  text-align: center;
+}
+
+@media (max-width: 768px) {
+  .orbit-scene {
+    width: 300px;
+    height: 300px;
+  }
+
+  .orbit-ring--inner { width: 130px; height: 130px; }
+  .orbit-ring--mid   { width: 200px; height: 200px; }
+  .orbit-ring--outer { width: 270px; height: 270px; }
+  .orbit-center      { width: 80px; height: 80px; }
+  .orbit-center__text { font-size: 10px; }
+
+  .orbit--inner { width: 130px; height: 130px; }
+  .orbit--mid   { width: 200px; height: 200px; }
+  .orbit--outer { width: 270px; height: 270px; }
+
+  .orbit--inner .orbit-icon:nth-child(1) { transform: translateX(-50%) translateY(-50%) rotate(0deg) translateY(-65px) rotate(0deg); }
+  .orbit--inner .orbit-icon:nth-child(2) { transform: translateX(-50%) translateY(-50%) rotate(120deg) translateY(-65px) rotate(-120deg); }
+  .orbit--inner .orbit-icon:nth-child(3) { transform: translateX(-50%) translateY(-50%) rotate(240deg) translateY(-65px) rotate(-240deg); }
+
+  .orbit--mid .orbit-icon:nth-child(1) { transform: translateX(-50%) translateY(-50%) rotate(0deg) translateY(-100px) rotate(0deg); }
+  .orbit--mid .orbit-icon:nth-child(2) { transform: translateX(-50%) translateY(-50%) rotate(120deg) translateY(-100px) rotate(-120deg); }
+  .orbit--mid .orbit-icon:nth-child(3) { transform: translateX(-50%) translateY(-50%) rotate(240deg) translateY(-100px) rotate(-240deg); }
+
+  .orbit--outer .orbit-icon:nth-child(1) { transform: translateX(-50%) translateY(-50%) rotate(0deg) translateY(-135px) rotate(0deg); }
+  .orbit--outer .orbit-icon:nth-child(2) { transform: translateX(-50%) translateY(-50%) rotate(120deg) translateY(-135px) rotate(-120deg); }
+  .orbit--outer .orbit-icon:nth-child(3) { transform: translateX(-50%) translateY(-50%) rotate(240deg) translateY(-135px) rotate(-240deg); }
+
+  .orbit-icon {
+    width: 38px;
+    height: 38px;
+  }
+
+  .orbit-icon span {
+    font-size: 16px;
+  }
+}

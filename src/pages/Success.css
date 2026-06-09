@@ -1,0 +1,75 @@
+.success-page {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #FDD7B8 0%, #9B5BA3 50%, #1a1a2e 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.success-card {
+  background: rgba(255,255,255,0.96);
+  border-radius: 24px;
+  padding: 56px 48px;
+  max-width: 480px;
+  width: 100%;
+  text-align: center;
+  box-shadow: 0 24px 64px rgba(0,0,0,0.25);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.success-icon {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: #DC3627;
+  color: white;
+  font-size: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 900;
+  margin-bottom: 8px;
+}
+
+.success-title {
+  font-size: 32px;
+  font-weight: 900;
+  color: #1a1a2e;
+  letter-spacing: -0.5px;
+}
+
+.success-body {
+  font-size: 16px;
+  color: #555;
+  line-height: 1.6;
+  max-width: 340px;
+}
+
+.success-back {
+  background: #000;
+  color: #fff;
+  font-size: 15px;
+  font-weight: 700;
+  padding: 13px 28px;
+  border-radius: 32px;
+  margin-top: 8px;
+  transition: background 0.2s;
+  width: 100%;
+}
+
+.success-back:hover {
+  background: #DC3627;
+}
+
+.success-sign {
+  background: none;
+  color: #DC3627;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 8px;
+  text-decoration: underline;
+}

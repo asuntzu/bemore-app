@@ -1,0 +1,73 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --rust: #DC3627;
+  --rust-dark: #b82d20;
+  --gradient-start: #FDD7B8;
+  --gradient-mid: #9B5BA3;
+  --gradient-end: #1a1a2e;
+  --dark: #1a1a2e;
+  --text-primary: #ffffff;
+  --text-dark: #1a1a2e;
+  --text-muted: rgba(255,255,255,0.65);
+  --font: 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+html, body {
+  min-height: 100%;
+  font-family: var(--font);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+button {
+  font-family: var(--font);
+  cursor: pointer;
+  border: none;
+  outline: none;
+}
+
+input, textarea, select {
+  font-family: var(--font);
+}
+
+/* ─── Shared layout utilities ──────────────────────────────────────────────── */
+
+/* Centered content column used by every section */
+.section-inner {
+  max-width: 1280px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 80px;
+}
+
+/* Consistent section headline style */
+.section-headline {
+  font-size: clamp(28px, 4vw, 44px);
+  font-weight: 900;
+  color: #ffffff;
+  letter-spacing: -1px;
+  line-height: 1.1;
+  max-width: 680px;
+  text-shadow: 0 2px 16px rgba(0,0,0,0.35);
+}
+
+@media (max-width: 900px) {
+  .section-inner {
+    padding: 0 24px;
+  }
+
+  .section-headline {
+    max-width: 100%;
+  }
+}

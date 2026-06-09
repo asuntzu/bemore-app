@@ -1,0 +1,196 @@
+.sign-page {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #FDD7B8 0%, #9B5BA3 50%, #1a1a2e 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 32px 24px;
+  gap: 24px;
+}
+
+.sign-page__actions {
+  display: flex;
+  gap: 16px;
+  width: 100%;
+  max-width: 800px;
+  justify-content: space-between;
+}
+
+.sign-back {
+  background: rgba(255,255,255,0.15);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 10px 20px;
+  border-radius: 20px;
+  transition: background 0.2s;
+}
+
+.sign-back:hover {
+  background: rgba(255,255,255,0.25);
+}
+
+.sign-download {
+  background: #DC3627;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 700;
+  padding: 10px 22px;
+  border-radius: 20px;
+  transition: background 0.2s, transform 0.15s;
+}
+
+.sign-download:hover {
+  background: #b82d20;
+  transform: translateY(-1px);
+}
+
+.sign-preview-wrap {
+  width: 100%;
+  max-width: 800px;
+  perspective: 1200px;
+}
+
+.sign-card {
+  background: #ffffff;
+  border-radius: 20px;
+  box-shadow: 0 32px 80px rgba(0,0,0,0.35);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.sign-card__top {
+  background: #1a1a2e;
+  padding: 24px 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.sign-logo {
+  font-size: 20px;
+  font-weight: 900;
+  color: #DC3627;
+  text-transform: uppercase;
+  letter-spacing: -0.3px;
+}
+
+.sign-tagline {
+  font-size: 13px;
+  color: rgba(255,255,255,0.55);
+  font-weight: 500;
+}
+
+.sign-card__body {
+  padding: 48px 40px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.sign-headline {
+  font-size: 42px;
+  font-weight: 900;
+  color: #1a1a2e;
+  letter-spacing: -1px;
+  line-height: 1.1;
+}
+
+.sign-vision {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.sign-vision__badge {
+  display: inline-block;
+  background: #DC3627;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 5px 14px;
+  border-radius: 20px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  width: fit-content;
+}
+
+.sign-vision__type {
+  font-size: 22px;
+  font-weight: 700;
+  color: #1a1a2e;
+}
+
+.sign-vision__quote {
+  font-size: 15px;
+  color: #555;
+  line-height: 1.6;
+  font-style: italic;
+  border-left: 3px solid #DC3627;
+  padding-left: 16px;
+  max-width: 520px;
+}
+
+.sign-card__bottom {
+  background: #f8f7f6;
+  padding: 24px 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-top: 1px solid #eee;
+}
+
+.sign-qr-placeholder {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: #555;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.sign-qr-box {
+  width: 56px;
+  height: 56px;
+  border: 2px solid #1a1a2e;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 700;
+  color: #1a1a2e;
+}
+
+.sign-url {
+  font-size: 13px;
+  font-weight: 600;
+  color: #999;
+}
+
+.sign-hint {
+  color: rgba(255,255,255,0.55);
+  font-size: 13px;
+  text-align: center;
+}
+
+@media (max-width: 640px) {
+  .sign-card__top,
+  .sign-card__body,
+  .sign-card__bottom {
+    padding-left: 24px;
+    padding-right: 24px;
+  }
+
+  .sign-headline {
+    font-size: 28px;
+  }
+
+  .sign-card__bottom {
+    flex-direction: column;
+    gap: 12px;
+    align-items: flex-start;
+  }
+}

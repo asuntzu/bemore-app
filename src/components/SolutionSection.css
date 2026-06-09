@@ -1,0 +1,103 @@
+.solution {
+  padding: 80px 0;
+}
+
+.solution__steps {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0;
+  margin-top: 48px;
+  position: relative;
+}
+
+.solution__step {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 0 32px;
+  position: relative;
+}
+
+.solution__step:first-child {
+  padding-left: 0;
+}
+
+.solution__step:last-child {
+  padding-right: 0;
+}
+
+/* Horizontal connector line between steps */
+.solution__connector {
+  position: absolute;
+  top: 28px;
+  right: -1px;
+  width: 2px;
+  height: 56px;
+  background: rgba(220,54,39,0.35);
+}
+
+.solution__step-num {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: #DC3627;
+  color: #fff;
+  font-size: 18px;
+  font-weight: 900;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+  flex-shrink: 0;
+}
+
+.solution__step-body {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.solution__step-label {
+  font-size: 11px;
+  font-weight: 700;
+  color: #DC3627;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.solution__step-title {
+  font-size: 28px;
+  font-weight: 900;
+  color: #ffffff;
+  letter-spacing: -0.5px;
+  text-shadow: 0 2px 12px rgba(0,0,0,0.3);
+}
+
+.solution__step-copy {
+  font-size: 15px;
+  color: rgba(255,255,255,0.88);
+  line-height: 1.7;
+}
+
+@media (max-width: 900px) {
+  .solution {
+    padding: 60px 0;
+  }
+
+  .solution__steps {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+
+  .solution__step {
+    padding: 0;
+  }
+
+  .solution__connector {
+    display: none;
+  }
+
+  .solution__step-title {
+    font-size: 22px;
+  }
+}
