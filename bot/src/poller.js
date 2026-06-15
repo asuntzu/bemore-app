@@ -6,21 +6,6 @@ const path      = require('path');
 const { stmts } = require('./db');
 const mailer    = require('./mailer');
 
-// Optional HTTP/HTTPS proxy — set HTTPS_PROXY or HTTP_PROXY env var.
-// Craigslist blocks datacenter IPs; a residential proxy is required on Railway.
-let _fetchOptions = {};
-(async () => {
-  const proxyUrl = process.env.HTTPS_PROXY || process.env.HTTP_PROXY;
-  if (proxyUrl) {
-    try {
-      const { ProxyAgent } = await import('undici');
-      _fetchOptions.dispatcher = new ProxyAgent(proxyUrl);
-      console.log(`[poller] using proxy: ${proxyUrl}`);
-    } catch {
-      console.warn('[poller] undici not available; proxy ignored');
-    }
-  }
-})();
 
 const parser = new RSSParser({
   customFields: {
@@ -86,7 +71,6 @@ async function pollWatch(watch, { seed = false } = {}) {
 
   try {
     const res = await fetch(url, {
-      ..._fetchOptions,
       headers: {
         'User-Agent':      'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36',
         'Accept':          'application/rss+xml, application/xml, text/xml, */*',

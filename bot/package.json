@@ -8,7 +8,7 @@
   },
   "scripts": {
     "start": "node src/index.js",
-    "dev": "node --watch src/index.js"
+    "watch": "node src/cli.js"
   },
   "engines": {
     "node": ">=18"
