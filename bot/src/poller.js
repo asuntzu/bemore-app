@@ -1,15 +1,32 @@
 'use strict';
 
 const RSSParser = require('rss-parser');
-const fs = require('fs');
-const path = require('path');
+const fs        = require('fs');
+const path      = require('path');
 const { stmts } = require('./db');
+const mailer    = require('./mailer');
+
+// Optional HTTP/HTTPS proxy — set HTTPS_PROXY or HTTP_PROXY env var.
+// Craigslist blocks datacenter IPs; a residential proxy is required on Railway.
+let _fetchOptions = {};
+(async () => {
+  const proxyUrl = process.env.HTTPS_PROXY || process.env.HTTP_PROXY;
+  if (proxyUrl) {
+    try {
+      const { ProxyAgent } = await import('undici');
+      _fetchOptions.dispatcher = new ProxyAgent(proxyUrl);
+      console.log(`[poller] using proxy: ${proxyUrl}`);
+    } catch {
+      console.warn('[poller] undici not available; proxy ignored');
+    }
+  }
+})();
 
 const parser = new RSSParser({
   customFields: {
     item: [
-      ['enc:enclosure', 'enclosure'],
-      ['media:content', 'mediaContent'],
+      ['enc:enclosure',   'enclosure'],
+      ['media:content',   'mediaContent'],
       ['media:thumbnail', 'mediaThumbnail'],
     ],
   },
@@ -19,16 +36,14 @@ const LOG_DIR = process.env.LOG_DIR || path.join(process.cwd(), 'logs');
 fs.mkdirSync(LOG_DIR, { recursive: true });
 const LOG_FILE = path.join(LOG_DIR, 'matches.log');
 
-// ── URL builder ────────────────────────────────────────────────────────────────
+// ── Helpers ────────────────────────────────────────────────────────────────────
 
 function buildRssUrl(watch) {
-  const params = new URLSearchParams({ query: watch.keyword, format: 'rss' });
-  if (watch.min_price != null) params.set('min_price', watch.min_price);
-  if (watch.max_price != null) params.set('max_price', watch.max_price);
-  return `https://${watch.subdomain}.craigslist.org/search/sss?${params}`;
+  const p = new URLSearchParams({ query: watch.keyword, format: 'rss' });
+  if (watch.min_price != null) p.set('min_price', watch.min_price);
+  if (watch.max_price != null) p.set('max_price', watch.max_price);
+  return `https://${watch.subdomain}.craigslist.org/search/sss?${p}`;
 }
-
-// ── Helpers ────────────────────────────────────────────────────────────────────
 
 function extractListingId(link = '') {
   const m = link.match(/\/(\d+)\.html/);
@@ -46,97 +61,42 @@ function cleanTitle(title = '') {
 
 function extractThumb(item) {
   return (
-    item.enclosure?.url ||
-    item.mediaContent?.['$']?.url ||
+    item.enclosure?.url            ||
+    item.mediaContent?.['$']?.url  ||
     item.mediaThumbnail?.['$']?.url ||
     null
   );
-}
-
-function escapeHtml(str) {
-  return String(str)
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;');
 }
 
 function appendLog(entry) {
   fs.appendFileSync(LOG_FILE, JSON.stringify(entry) + '\n');
 }
 
-// ── Alert sender ───────────────────────────────────────────────────────────────
-
-async function sendAlert(bot, watch, item) {
-  const price     = extractPrice(item.title) || 'unknown price';
-  const title     = cleanTitle(item.title || 'No title');
-  const location  = item['g2:city'] || watch.city;
-  const link      = item.link || '';
-  const thumb     = extractThumb(item);
-  const posted    = item.pubDate
-    ? new Date(item.pubDate).toLocaleString('en-US', {
-        month: 'short', day: 'numeric',
-        hour: '2-digit', minute: '2-digit', timeZone: 'UTC', timeZoneName: 'short',
-      })
-    : 'unknown';
-
-  const text =
-    `🔔 <b>Watch #${watch.id}: ${escapeHtml(watch.keyword)} in ${escapeHtml(watch.city)}</b>\n` +
-    `<b>${escapeHtml(title)}</b>\n` +
-    `💰 ${escapeHtml(price)}  📍 ${escapeHtml(location)}  🕐 ${posted}\n` +
-    `🔗 <a href="${escapeHtml(link)}">View listing</a>`;
-
-  const opts = { parse_mode: 'HTML' };
-
-  try {
-    if (thumb) {
-      await bot.sendPhoto(watch.chat_id, thumb, { caption: text, ...opts });
-    } else {
-      await bot.sendMessage(watch.chat_id, text, opts);
-    }
-  } catch (err) {
-    // Photo may fail (invalid URL etc.) — fall back to text only
-    try {
-      await bot.sendMessage(watch.chat_id, text, opts);
-    } catch (e) {
-      console.error(`[poller] alert failed for watch ${watch.id}: ${e.message}`);
-    }
-  }
-
-  appendLog({
-    timestamp: new Date().toISOString(),
-    watch_id:  watch.id,
-    chat_id:   watch.chat_id,
-    keyword:   watch.keyword,
-    city:      watch.city,
-    title:     item.title,
-    price,
-    link,
-    listing_id: extractListingId(link),
-  });
-}
-
 // ── Core poll ─────────────────────────────────────────────────────────────────
 
 /**
- * @param {object} watch  - DB row
- * @param {object} bot    - TelegramBot instance
- * @param {object} opts
- * @param {boolean} opts.seed  - If true, mark listings seen but don't alert (initial seeding)
- * @returns {number}  count of new listings found
+ * @param {object} watch
+ * @param {object} [opts]
+ * @param {boolean} [opts.seed]  Mark listings seen but do not alert.
+ * @returns {number}  Count of new listings found.
  */
-async function pollWatch(watch, bot, { seed = false } = {}) {
+async function pollWatch(watch, { seed = false } = {}) {
   const url = buildRssUrl(watch);
   let feed;
 
   try {
     const res = await fetch(url, {
-      headers: { 'User-Agent': 'Mozilla/5.0 (compatible; CraigslistMonitorBot/1.0)' },
+      ..._fetchOptions,
+      headers: {
+        'User-Agent':      'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36',
+        'Accept':          'application/rss+xml, application/xml, text/xml, */*',
+        'Accept-Language': 'en-US,en;q=0.9',
+        'Cache-Control':   'no-cache',
+      },
       signal: AbortSignal.timeout(20_000),
     });
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
-    const xml = await res.text();
-    feed = await parser.parseString(xml);
+    feed = await parser.parseString(await res.text());
   } catch (err) {
     console.error(`[poller] watch ${watch.id} fetch error: ${err.message}`);
     return 0;
@@ -154,70 +114,91 @@ async function pollWatch(watch, bot, { seed = false } = {}) {
 
     if (seed) continue;
 
+    const price    = extractPrice(item.title);
+    const title    = cleanTitle(item.title || 'No title');
+    const location = item['g2:city'] || watch.city;
+    const link     = item.link || '';
+    const thumb    = extractThumb(item);
+    const posted   = item.pubDate
+      ? new Date(item.pubDate).toLocaleString('en-US', {
+          month: 'short', day: 'numeric',
+          hour: '2-digit', minute: '2-digit',
+          timeZone: 'UTC', timeZoneName: 'short',
+        })
+      : 'unknown';
+
     if (watch.digest_mode) {
       stmts.queueDigestItem.run({
         watch_id:   watch.id,
         chat_id:    watch.chat_id,
         title:      item.title || '',
-        price:      extractPrice(item.title) || '',
-        link:       item.link || '',
+        price:      price || '',
+        link,
         listing_id: listingId,
       });
     } else {
-      await sendAlert(bot, watch, item);
+      try {
+        await mailer.sendAlert({ watch, title, price, location, posted, link, thumb });
+      } catch (err) {
+        console.error(`[poller] email failed for watch ${watch.id}: ${err.message}`);
+      }
     }
+
+    appendLog({
+      timestamp:  new Date().toISOString(),
+      watch_id:   watch.id,
+      keyword:    watch.keyword,
+      city:       watch.city,
+      title:      item.title,
+      price,
+      link,
+      listing_id: listingId,
+    });
   }
 
   return newCount;
 }
 
-// ── Scheduled full poll ────────────────────────────────────────────────────────
+// ── Full scheduled sweep ───────────────────────────────────────────────────────
 
-async function pollAll(bot) {
+async function pollAll() {
   const watches = stmts.getAllActiveWatches.all();
   console.log(`[poller] polling ${watches.length} active watch(es)...`);
   for (const watch of watches) {
-    await pollWatch(watch, bot);
+    await pollWatch(watch);
   }
 }
 
-// ── Daily digest sender ────────────────────────────────────────────────────────
+// ── Daily digest ──────────────────────────────────────────────────────────────
 
-async function sendDailyDigests(bot) {
+async function sendDailyDigests() {
   const chats = stmts.getDistinctDigestChats.all();
   if (!chats.length) return;
 
-  const dateStr = new Date().toLocaleDateString('en-US', {
+  const date = new Date().toLocaleDateString('en-US', {
     weekday: 'long', month: 'long', day: 'numeric', timeZone: 'UTC',
   });
 
   for (const { chat_id } of chats) {
-    const items = stmts.getDigestItemsByChat.all(chat_id);
-    if (!items.length) continue;
+    const rows = stmts.getDigestItemsByChat.all(chat_id);
+    if (!rows.length) continue;
 
-    // Group by watch
     const byWatch = {};
-    for (const row of items) {
+    for (const row of rows) {
       (byWatch[row.watch_id] ??= []).push(row);
     }
 
-    let msg = `📰 <b>Daily Digest — ${escapeHtml(dateStr)}</b>\n`;
-
-    for (const [watchId, rows] of Object.entries(byWatch)) {
-      const { keyword, city } = rows[0];
-      msg += `\n<b>Watch #${watchId}: ${escapeHtml(keyword)} in ${escapeHtml(city)}</b>\n`;
-      for (const row of rows.slice(0, 10)) {
-        const title = cleanTitle(row.title || 'No title');
-        const price = row.price || 'unknown price';
-        msg += `• <a href="${escapeHtml(row.link)}">${escapeHtml(title)}</a> — ${escapeHtml(price)}\n`;
-      }
-      if (rows.length > 10) msg += `  <i>…and ${rows.length - 10} more</i>\n`;
-    }
+    const sections = Object.entries(byWatch).map(([wid, items]) => ({
+      watchId: wid,
+      keyword: items[0].keyword,
+      city:    items[0].city,
+      items:   items.map(r => ({ title: cleanTitle(r.title), price: r.price, link: r.link })),
+    }));
 
     try {
-      await bot.sendMessage(chat_id, msg, { parse_mode: 'HTML', disable_web_page_preview: true });
+      await mailer.sendDigest({ chatLabel: chat_id, date, sections });
     } catch (err) {
-      console.error(`[digest] send failed for chat ${chat_id}: ${err.message}`);
+      console.error(`[digest] email failed: ${err.message}`);
     }
 
     stmts.clearDigestForChat.run(chat_id);
